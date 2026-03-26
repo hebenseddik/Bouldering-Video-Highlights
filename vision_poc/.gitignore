@@ -1,0 +1,18 @@
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual Environments
+venv/
+env/
+.conda/
+
+# Data and Models
+data/
+models/
+*.mp4
+*.wav
+*.npy
+*.pt
+*.pth

@@ -30,7 +30,7 @@ Create the required directory structure:
 ```bash
 mkdir -p data/input data/output data/dataset models
 ```
-Place your source video in:
+Place the source video in:
 ```
 data/input/janja_video.mp4
 ```

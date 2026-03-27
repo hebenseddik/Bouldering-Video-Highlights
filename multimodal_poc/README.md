@@ -1,4 +1,4 @@
-# Bouldering Highlights POC based on Multimodal AI (Audio & Video Analysis)
+# Bouldering Highlights POC based on Multimodal AI Model (Audio & Video Analysis)
 
 This Proof of Concept (POC) analyzes bouldering videos by combining Computer Vision (pose estimation) and Audio Processing (sound frequency analysis) to generate highlight videos. It uses a **Late Fusion** architecture to synchronize and evaluate both physical movements and auditory events (e.g., jumps, crowd cheers, falls).
 
@@ -100,7 +100,8 @@ multimodal_poc/
 │       └── y_raw.npy
 │
 ├── models/
-│   └── multimodal_fusion.pth
+│   └── multimodal_net.pth
+│   └── yolo11m-pose.pt
 │
 ├── src/
 │   ├── detector.py

@@ -14,12 +14,12 @@ from src.audio_engine import ClimbingAudioEngine
 def build_multimodal_dataset(video_path, audio_path, start_sec, end_sec):
     print("Initializing Multimodal engines...")
     
-    # 1. Initialize "Eyes"
-    model_path = os.path.join(PROJECT_ROOT, '..', 'climbing-vision-poc', 'models', 'yolo11m-pose.pt')
+    # 1. Initialize Vision Branch
+    model_path = os.path.join(PROJECT_ROOT, 'models', 'yolo11m-pose.pt')
     detector = ClimbingDetector(model_path)
     processor = PoseProcessor(window_size=30)
     
-    # 2. Initialize "Ears"
+    # 2. Initialize Audio Branch
     audio_engine = ClimbingAudioEngine(audio_path, fps=30)
     
     # 3. Load Video

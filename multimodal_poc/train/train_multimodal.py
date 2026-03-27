@@ -33,7 +33,7 @@ def train_multimodal():
     X_audio_tensor = torch.FloatTensor(X_audio_raw).to(device)
     y_tensor = torch.LongTensor(y_raw).to(device)
 
-    # Note: TensorDataset accepts multiple inputs!
+    # Note: TensorDataset accepts multiple inputs
     dataset = TensorDataset(X_vision_tensor, X_audio_tensor, y_tensor)
     loader = DataLoader(dataset, batch_size=32, shuffle=True)
 

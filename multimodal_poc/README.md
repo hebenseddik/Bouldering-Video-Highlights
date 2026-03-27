@@ -1,33 +1,12 @@
-# Bouldering Highlight POC based on Multimodal AI (audio & video analysis)
-
-This Proof of Concept (POC) analyzes bouldering videos by combining Computer Vision (pose estimation) and Audio Processing (sound frequency analysis) to generate highlight videos. It utilizes a "Late Fusion" architecture to synchronize and evaluate both physical movements and auditory events (e.g., jumps, crowd cheers, falls).
-
-## Architecture 
-1. **Vision Branch**: `YOLOv11m-Pose` extracts 17 skeletal keypoints, flattened and tracked over a 30-frame rolling window.
-2. **Audio Branch**: `Librosa` extracts Mel-Frequency Cepstral Coefficients (MFCCs) from the audio track, synchronized at 30 FPS.
-3. **Fusion Model**: Two parallel LSTMs process the visual and audio sequences. Their final states are concatenated (Late Fusion) into a dense network to predict the final climbing action.
-
-## Repository Structure
-- `data/`: Input, output and dataset are stored here.
-- `models/`: Models (trained and downloaded) are stored here.
-- `src/`: Core engine modules (Vision Detector, Audio Engine, Processor, Fusion Net).
-- `train/`: Scripts for building the synchronized multimodal dataset and training the network.
-- `main_multimodal.py`: Main inference script that generates the final annotated video with sound.
-
-## Setup & Execution
-
-1. **Install Dependencies**:
-   pip install -r requirements.txt
-
 # Bouldering Highlights POC based on Multimodal AI (Audio & Video Analysis)
 
 This Proof of Concept (POC) analyzes bouldering videos by combining Computer Vision (pose estimation) and Audio Processing (sound frequency analysis) to generate highlight videos. It uses a **Late Fusion** architecture to synchronize and evaluate both physical movements and auditory events (e.g., jumps, crowd cheers, falls).
 
 ## Architecture
 
-* **Vision Branch (Eyes)**: `YOLOv11m-Pose` extracts 17 skeletal keypoints, flattened and tracked over a 30-frame rolling window.
-* **Audio Branch (Ears)**: `Librosa` extracts Mel-Frequency Cepstral Coefficients (MFCCs) from the audio track at 30 FPS.
-* **Fusion Model (Brain)**: Parallel LSTMs process visual and audio sequences; final states are concatenated (Late Fusion) into a dense network for action classification.
+* **Vision Banch**: `YOLOv11m-Pose` extracts 17 skeletal keypoints, flattened and tracked over a 30-frame rolling window.
+* **Audio Branch**: `Librosa` extracts Mel-Frequency Cepstral Coefficients (MFCCs) from the audio track at 30 FPS.
+* **Fusion Model**: Parallel LSTMs process visual and audio sequences; final states are concatenated (Late Fusion) into a dense network for action classification.
 * **Classes**: Rest, Climb, Dyno (Jump), Fall/Top.
 
 ## Repository Structure
@@ -68,7 +47,7 @@ python utils/extract_audio.py
 ```
 
 Outputs:
-data/input/janja_sequence.mp4
+data/input/janja_sequence_318_385.mp4
 data/audio/janja_audio.wav
 
 ### 4. Build the Multimodal Dataset
@@ -89,7 +68,7 @@ Train the LSTM architecture
 python train/train_multimodal.py
 ```
 Output:
-models/multimodal_fusion.pth
+models/multimodal_net.pth
 
 ### 6. Run Inference (Audio-Visual Analysis)
 Process and generate output
@@ -111,9 +90,8 @@ multimodal_poc/
 ├── data/
 │   ├── input/
 │   │   ├── janja_video.mp4
-│   │   └── janja_sequence.mp4
-│   ├── audio/
-│   │   └── janja_audio.wav
+│   │   └── janja_sequence_318_385.mp4
+│   │   └── janja_audio_track.wav
 │   ├── output/
 │   │   └── janja_multimodal_analysis.mp4
 │   └── dataset/

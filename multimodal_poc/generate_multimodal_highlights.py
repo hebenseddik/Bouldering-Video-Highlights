@@ -25,15 +25,13 @@ from src.fusion_model import ClimbingMultimodalNet
 def create_multimodal_highlights(video_in, audio_in, video_out):
     """
     Reads video and audio inputs, runs synchronized multimodal inference on each frame, 
-    and writes to the output video ONLY if the AI predicts a high-intensity action.
-    Also stitches the corresponding audio fragments together.
+    and writes to the output video ONLY if the model predicts a high-intensity action.
     """
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Generating Multimodal Highlights on target device: {device}")
 
     # 1. Initialization and Paths
-    # Fallback logic to find the YOLO model whether it's in the old POC or copied here
-    yolo_path = os.path.abspath(os.path.join(PROJECT_ROOT, '..', 'climbing-vision-poc', 'models', 'yolo11m-pose.pt'))
+    yolo_path = os.path.abspath(os.path.join(PROJECT_ROOT, 'models', 'yolo11m-pose.pt'))
     if not os.path.exists(yolo_path):
         yolo_path = os.path.join(PROJECT_ROOT, 'models', 'yolo11m-pose.pt')
         
@@ -68,7 +66,7 @@ def create_multimodal_highlights(video_in, audio_in, video_out):
     fourcc = cv2.VideoWriter_fourcc(*'mp4v') 
     out = cv2.VideoWriter(temp_video_out, fourcc, fps, (width, height))
 
-    print(f"🎬 Analyzing full multimodal sequence of {total_frames} frames...")
+    print(f"Analyzing full multimodal sequence of {total_frames} frames...")
 
     current_f = 0
     highlight_frames_saved = 0
@@ -138,7 +136,7 @@ def create_multimodal_highlights(video_in, audio_in, video_out):
         print("Stitching highlight audio chunks together...")
         final_audio_raw = np.concatenate(highlight_audio_chunks)
         
-        # FIX: Convert Mono to Stereo to avoid AAC encoding issues in MoviePy
+        # Convert Mono to Stereo to avoid AAC encoding issues in MoviePy
         if len(final_audio_raw.shape) == 1:
             final_audio_raw = np.column_stack((final_audio_raw, final_audio_raw))
             

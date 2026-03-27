@@ -33,8 +33,7 @@ def run_multimodal_inference():
     os.makedirs(os.path.dirname(final_video_out), exist_ok=True)
 
     # 2. Load all engines
-    # Attempt to load YOLO from the previous POC folder, fallback to local models/ folder
-    yolo_path = os.path.abspath(os.path.join(PROJECT_ROOT, '..', 'climbing-vision-poc', 'models', 'yolo11m-pose.pt'))
+    yolo_path = os.path.abspath(os.path.join(PROJECT_ROOT, 'models', 'yolo11m-pose.pt'))
     if not os.path.exists(yolo_path):
         yolo_path = os.path.join(PROJECT_ROOT, 'models', 'yolo11m-pose.pt')
 
@@ -60,14 +59,14 @@ def run_multimodal_inference():
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter(temp_video_out, fourcc, fps, (width, height))
 
-    print(f"🎬 Synchronized analysis running ({total_frames} frames)...")
+    print(f"Synchronized analysis running ({total_frames} frames)...")
     current_f = 0
 
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret: break
 
-        # A. Vision: Skeleton extraction using YOLO (Filtered by Confidence)
+        # A. Vision: Skeleton extraction using YOLO
         kp_norm, results = detector.get_poses(frame)
         
         # Draw base skeleton if detected, otherwise keep original frame
@@ -81,7 +80,7 @@ def run_multimodal_inference():
                 # B. Audio: Retrieve corresponding 1-second audio window (MFCCs)
                 seq_audio = audio_engine.get_audio_window(current_f, window_size=30)
                 
-                # C. Prepare tensors for the fusion brain
+                # C. Prepare tensors for the fusion
                 t_vision = torch.FloatTensor(seq_vision).to(device)
                 t_audio = torch.FloatTensor(np.expand_dims(seq_audio, axis=0)).to(device) # Add batch dimension
 
@@ -92,7 +91,6 @@ def run_multimodal_inference():
                     action_label = classifier.classes[prediction]
 
                 # E. Display Results & UI Overlay
-                # Dynamic color coding based on predicted action severity
                 color = (0, 255, 0) # Green default (Rest / Climb)
                 if prediction == 2: color = (0, 165, 255) # Orange for Dyno (Explosive move)
                 elif prediction == 3: color = (255, 0, 255) # Purple for Top/Fall
@@ -115,7 +113,7 @@ def run_multimodal_inference():
     print("Visual and Neural analysis complete.")
 
     # 4. Final Output Generation: Audio Remuxing
-    print("🎵 Remuxing audio track onto the final annotated video...")
+    print("Remuxing audio track onto the final annotated video...")
     try:
         video_clip = VideoFileClip(temp_video_out)
         audio_clip = AudioFileClip(audio_in)

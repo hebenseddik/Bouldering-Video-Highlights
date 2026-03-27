@@ -139,17 +139,6 @@ vision_poc/
 ```
 
 ---
-
-## Key Features
-
-* Real-time pose-based action recognition
-* Temporal modeling using LSTM
-* Automated dataset generation pipeline
-* Video annotation with action predictions
-* Automatic highlight extraction
-
----
-
 ## Notes
 
 * Ensure all paths are correct relative to the project root

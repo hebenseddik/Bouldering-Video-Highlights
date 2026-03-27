@@ -49,61 +49,63 @@ This Proof of Concept (POC) analyzes bouldering videos by combining Computer Vis
 pip install -r requirements.txt
 ```
 ### 2. Prepare the Data
-Create the required directory structure:
-
-Bash
+Create the required directory structure
+```bash
 mkdir -p data/input data/output data/dataset models data/audio
-Place your source video in:
-
-Plaintext
+```
+Place the source video in:
 data/input/janja_video.mp4
-Note: the selected video contains both a clear view of the climber and a clean audio track.
+
+Note: The selected video must contain both a clear view of the climber and a clean audio track for accurate analysis.
 
 ### 3. Extract the Target Sequence & Audio
+Run extraction scripts
 Extract the specific segment to analyze and generate the isolated audio track:
 
-Bash
+```bash
 python utils/extract_sequence.py
 python utils/extract_audio.py
-Outputs:
+```
 
-Plaintext
+Outputs:
 data/input/janja_sequence.mp4
 data/audio/janja_audio.wav
 
 ### 4. Build the Multimodal Dataset
-Generate synchronized labeled training data (YOLO keypoints + MFCCs):
+Generate training data
+Generate synchronized labeled training data by combining YOLO keypoints and MFCCs:
 
-Bash
+```bash
 python train/build_multimodal_dataset.py
+```
 Outputs:
-
-Plaintext
 data/dataset/X_vision.npy
 data/dataset/X_audio.npy
 data/dataset/y_raw.npy
 
 ### 5. Train the Fusion Model
-Train the parallel LSTM architecture:
-
-Bash
+Train the LSTM architecture
+```bash
 python train/train_multimodal.py
+```
 Output:
-
-Plaintext
 models/multimodal_fusion.pth
 
 ### 6. Run Inference (Audio-Visual Analysis)
-Process both streams synchronously, overlay predictions, and remux the audio back into the video:
+Process and generate output
+Process both streams synchronously, overlay predictions, and remux the audio back into the final video:
 
-Bash
+```bash
 python main_multimodal.py
+python generate_multimodal_highlights.py
+```
 Output:
-
-Plaintext
 data/output/janja_multimodal_analysis.mp4
-Detailed Project Structure
-Plaintext
+data/output/janja_multimodal_highlights.mp4
+
+## Detailed Project Structure
+
+```
 multimodal_poc/
 │
 ├── data/
@@ -138,6 +140,11 @@ multimodal_poc/
 │
 ├── main_multimodal.py
 └── requirements.txt
+```
 
+---
 
+## Notes
 
+* Ensure all paths are correct relative to the project root
+* GPU acceleration is recommended for training and inference

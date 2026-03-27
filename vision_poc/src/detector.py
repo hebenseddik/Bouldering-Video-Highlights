@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 
 class ClimbingDetector:
-    def __init__(self, model_path='yolo11m-pose.pt'):
+    def __init__(self, model_path='models/yolo11m-pose.pt'):
         # Automatically downloads the YOLO model if it doesn't exist locally
         self.model = YOLO(model_path)
 

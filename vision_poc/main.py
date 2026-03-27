@@ -62,9 +62,9 @@ def run_inference_sequence(video_in, video_out, start_sec, end_sec):
                     prediction = torch.argmax(output, dim=1).item()
                     label = classifier.classes[prediction]
             
-            # Visualization: Skeleton + AI Status
+            # Visualization: Skeleton + Status Prediction
             annotated_frame = results_yolo[0].plot() 
-            cv2.putText(annotated_frame, f"AI PREDICTION | {label}", (50, 80), 
+            cv2.putText(annotated_frame, f"MOTION PREDICTION | {label}", (50, 80), 
                         cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 255, 0), 3)
             out.write(annotated_frame)
         else:

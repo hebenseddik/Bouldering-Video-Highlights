@@ -60,7 +60,7 @@ def create_highlights_from_clip(video_in, video_out):
                     prediction = torch.argmax(output, dim=1).item()
 
                     # --- HIGHLIGHT LOGIC ---
-                    # Save frame if the AI predicts Dyno (2) or Top (3)
+                    # Save frame if the model predicts Dyno (2) or Top (3)
                     if prediction == 2: 
                         cv2.putText(clean_frame, "HIGHLIGHT: DYNO", (50, 80), 
                                     cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 165, 255), 4)

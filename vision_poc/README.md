@@ -1,11 +1,11 @@
 # Bloudering Highlights POC based on Computer Vision
 
-First phase of the bouldering analysis project based on computer vision only. This POC detects a climber's poses in real-time and classifies their movements using a temporal sequence model.
+This Proof of Concept (POC) analyzes bouldering videos using **Computer Vision** (pose estimation) to automatically generate highlight videos. It utilizes a **temporal sequence model** to detect and evaluate physical movements (e.g., climbs, dynos, rests, falls) by processing skeletal keypoint sequences in real-time.
 
 ## Architecture
-- **Detection (Eyes)**: `YOLOv11m-Pose` for extracting 17 skeletal keypoints.
+- **Detection**: `YOLOv11m-Pose` for extracting 17 skeletal keypoints.
 - **Processing**: Flattens the coordinates and maintains a rolling window of 30 frames (1 second of context).
-- **Classification (Brain)**: PyTorch `LSTM` network processing the sequence to predict the action.
+- **Classification**: PyTorch `LSTM` network processing the sequence to predict the action.
 - **Classes**: Rest, Climb, Dyno (Jump), Fall/Top.
 
 ## Repository Structure
@@ -120,6 +120,7 @@ vision_poc/
 │
 ├── models/
 │   └── action_lstm.pth
+│   └── yolo11m-pose.pt
 │
 ├── src/
 │   ├── detector.py
